@@ -1,0 +1,2 @@
+web: gunicorn stuDYING.wsgi --limit-request-line 8188 --log-file -
+worker: celery worker --app=stuDYING --loglevel=info
