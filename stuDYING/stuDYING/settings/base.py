@@ -19,7 +19,8 @@ SECURE_HSTS_PRELOAD = True
 DEBUG = True
 
 ADMINS = (
-    ('Admin', 'foo@example.com'),
+    ('Ashly', 'ashlylau@gmail.com'),
+	('Ayushmaan', 'ayushmaanseth@gmail.com'),
 )
 
 AUTH_USER_MODEL = 'users.User'
