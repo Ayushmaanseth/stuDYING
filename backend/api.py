@@ -8,7 +8,7 @@ import json
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'crud.sqlite')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'api.sqlite')
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
@@ -25,32 +25,24 @@ class User(db.Model):
     def interests(self, value):
         self._interests += ',%s' % value
 
-    def __init__(self, username, email,interests):
+    def __init__(self, username, email, interests):
         self.username = username
         self.email = email
         self._interests = interests
 
     def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, 
-            sort_keys=True, indent=4)
+        dict = {
+            'username':self.username,
+            'email':self.email,
+            'interests':self.interests
+            }
 
+        return jsonify(dict)
 
 class UserSchema(ma.Schema):
     class Meta:
         # Fields to expose for a User
-        fields = ('username', 'email','interests')
-
-class UserJSONEncoder(JSONEncoder):
-    def default(self,obj):
-        if isinstance(obj,User):
-            return {
-                'username':obj.username,
-                'email':obj.email,
-                'interests':obj.interests
-            }
-        return super(UserJSONEncoder, self).default(obj)
-
-        
+        fields = ('username', 'email', 'interests')
 
 class Session(db.Model):
     id = db.Column(db.Integer,primary_key=True)
@@ -66,8 +58,13 @@ class Session(db.Model):
         self.date_time = date_time
 
     def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, 
-            sort_keys=True, indent=4)
+        dict = {
+            'created_by':self.created_by,
+            'location':self.location,
+            'description':self.description,
+            'date_time':self.date_time
+            }
+        return jsonify(dict)
 
 class SessionSchema(ma.Schema):
     class Meta:
@@ -76,36 +73,37 @@ class SessionSchema(ma.Schema):
 
 
 user_schema = UserSchema()
-users_schema = UserSchema(many=True)
+user_schemas = UserSchema(many=True)
 
 session_schema = SessionSchema()
-sessions_schema = SessionSchema(many=True)
+session_schemas = SessionSchema(many=True)
 
 db.drop_all()
 db.create_all()
+
+
+########## USER DB FUNCTIONS ###########
+
 # endpoint to create new user
 @app.route("/user", methods=["POST"])
 def add_user():
-    
     username = request.json['username']
     email = request.json['email']
     interests = request.json['interests']
-    
-    new_user = User(username, email,interests)
+
+    new_user = User(username, email, interests)
     #new_user_json = json.dumps(new_user)
     db.session.add(new_user)
     db.session.commit()
 
-    
-    print(new_user.toJSON())
-    #return new_user.toJSON()
+    return new_user.toJSON()
 
 
 # endpoint to show all users
 @app.route("/user", methods=["GET"])
 def get_user():
     all_users = User.query.all()
-    result = users_schema.dump(all_users)
+    result = user_schemas.dump(all_users)
     return jsonify(result.data)
 
 
@@ -139,6 +137,71 @@ def user_delete(id):
     db.session.commit()
 
     return user_schema.jsonify(user)
+
+
+
+########## SESSION DB FUNCTIONS ###########
+
+# endpoint to create new session
+@app.route("/session", methods=["POST"])
+def add_session():
+    created_by = request.json['created_by']
+    location = request.json['location']
+    description = request.json['description']
+    date_time = datetime.datetime.now()
+
+    new_session = Session(created_by, location, description, date_time)
+
+    db.session.add(new_session)
+    db.session.commit()
+
+    return new_session.toJSON()
+
+
+# endpoint to show all sessions
+@app.route("/session", methods=["GET"])
+def get_session():
+    all_sessions = Session.query.all()
+    result = session_schemas.dump(all_sessions)
+    return jsonify(result.data)
+
+
+# endpoint to get user detail by id
+@app.route("/session/<id>", methods=["GET"])
+def session_detail(id):
+    session = Session.query.get(id)
+    return session_schema.jsonify(session)
+
+
+# endpoint to update user
+@app.route("/session/<id>", methods=["PUT"])
+def session_update(id):
+    session = Session.query.get(id)
+    created_by = request.json['created_by']
+    location = request.json['location']
+    description = request.json['description']
+
+    user.created_by = created_by
+    user.location = location
+    user.description = description
+
+    db.session.commit()
+    return session_schema.jsonify(session)
+
+
+# endpoint to delete user
+@app.route("/session/<id>", methods=["DELETE"])
+def session_delete(id):
+    session = Session.query.get(id)
+    db.session.delete(session)
+    db.session.commit()
+
+    return session_schema.jsonify(session)
+
+
+##### SEARCH SESSIONS ######
+
+
 
 
 if __name__ == '__main__':
