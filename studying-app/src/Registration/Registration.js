@@ -15,13 +15,13 @@ const styles = theme => ({
     // flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '..',
-    height: '..',
+    // width: '50',
+    // height: '..',
   },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    alignItems: 'center',
+    // alignItems: 'center',
     width: 200,
   },
   dense: {

@@ -10,41 +10,29 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Chip from '@material-ui/core/Chip';
 
 const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' },
+  { label: 'Java' },
+  { label: 'JavaScript' },
+  { label: 'C' },
+  { label: 'C++' },
+  { label: 'Python' },
+  { label: 'Haskell' },
+  { label: 'Frontend Development' },
+  { label: 'Backend Development' },
+  { label: 'Databases' },
+  { label: 'Computer Architecture' },
+  { label: 'Artificial Intelligence' },
+  { label: 'App Development' },
+  { label: 'AR/VR' },
+  { label: 'Natural Language Processing' },
 ];
+
+const styles = theme => ({
+  // container: {
+  //   width: 'auto',
+  // },
+});
+
+
 
 function renderInput(inputProps) {
   const { InputProps, classes, ref, ...other } = inputProps;
@@ -170,7 +158,8 @@ class DownshiftMultiple extends React.Component {
         }) => (
           <div className={classes.container}>
             {renderInput({
-              fullWidth: true,
+              // fullWidth: true,
+              // width: 5000,
               classes,
               InputProps: getInputProps({
                 startAdornment: selectedItem.map(item => (
@@ -184,9 +173,9 @@ class DownshiftMultiple extends React.Component {
                 )),
                 onChange: this.handleInputChange,
                 onKeyDown: this.handleKeyDown,
-                placeholder: 'Select multiple countries',
+                placeholder: 'Choose your topics!',
               }),
-              label: 'Label',
+
             })}
             {isOpen ? (
               <Paper className={classes.paper} square>
@@ -212,129 +201,47 @@ DownshiftMultiple.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    height: 250,
-  },
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '500',
-    flexGrow: 1,
-    position: 'relative',
-  },
-  paper: {
-    position: 'absolute',
-    zIndex: 1,
-    marginTop: theme.spacing.unit,
-    left: 0,
-    right: 0,
-  },
-  chip: {
-    margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
-  },
-  inputRoot: {
-    flexWrap: 'wrap',
-  },
-  inputInput: {
-    width: 'auto',
-    flexGrow: 1,
-  },
-  divider: {
-    height: theme.spacing.unit * 2,
-  },
-});
+// const styles = theme => ({
+  // root: {
+  //   flexGrow: 1,
+  //   height: 250,
+  // },
+  // container: {
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   width: '500',
+  //   flexGrow: 1,
+  //
+  // },
+  // paper: {
+  //   position: 'absolute',
+  //   zIndex: 1,
+  //   marginTop: theme.spacing.unit,
+  //   left: 0,
+  //   right: 0,
+  // },
+  // chip: {
+  //   margin: `${theme.spacing.unit / 2}px ${theme.spacing.unit / 4}px`,
+  // },
+  // inputRoot: {
+  //   flexWrap: 'wrap',
+  // },
+  // inputInput: {
+  //   width: 'auto',
+  //   flexGrow: 1,
+  // },
+  // divider: {
+  //   height: theme.spacing.unit * 2,
+  // },
+// });
 
-let popperNode;
+// let popperNode;
 
 function IntegrationDownshift(props) {
   const { classes } = props;
 
   return (
-    <div className={classes.root}>
-      <Downshift id="downshift-simple">
-        {({
-          getInputProps,
-          getItemProps,
-          getMenuProps,
-          highlightedIndex,
-          inputValue,
-          isOpen,
-          selectedItem,
-        }) => (
-          <div className={classes.container}>
-            {renderInput({
-              fullWidth: true,
-              classes,
-              InputProps: getInputProps({
-                placeholder: 'Search a country (start with a)',
-              }),
-            })}
-            <div {...getMenuProps()}>
-              {isOpen ? (
-                <Paper className={classes.paper} square>
-                  {getSuggestions(inputValue).map((suggestion, index) =>
-                    renderSuggestion({
-                      suggestion,
-                      index,
-                      itemProps: getItemProps({ item: suggestion.label }),
-                      highlightedIndex,
-                      selectedItem,
-                    }),
-                  )}
-                </Paper>
-              ) : null}
-            </div>
-          </div>
-        )}
-      </Downshift>
-      <div className={classes.divider} />
       <DownshiftMultiple classes={classes} />
-      <div className={classes.divider} />
-      <Downshift id="downshift-popper">
-        {({
-          getInputProps,
-          getItemProps,
-          getMenuProps,
-          highlightedIndex,
-          inputValue,
-          isOpen,
-          selectedItem,
-        }) => (
-          <div className={classes.container}>
-            {renderInput({
-              fullWidth: true,
-              classes,
-              InputProps: getInputProps({
-                placeholder: 'With Popper',
-              }),
-              ref: node => {
-                popperNode = node;
-              },
-            })}
-            <Popper open={isOpen} anchorEl={popperNode}>
-              <div {...(isOpen ? getMenuProps({}, { suppressRefError: true }) : {})}>
-                <Paper
-                  square
-                  style={{ marginTop: 8, width: popperNode ? popperNode.clientWidth : null }}
-                >
-                  {getSuggestions(inputValue).map((suggestion, index) =>
-                    renderSuggestion({
-                      suggestion,
-                      index,
-                      itemProps: getItemProps({ item: suggestion.label }),
-                      highlightedIndex,
-                      selectedItem,
-                    }),
-                  )}
-                </Paper>
-              </div>
-            </Popper>
-          </div>
-        )}
-      </Downshift>
-    </div>
   );
 }
 
