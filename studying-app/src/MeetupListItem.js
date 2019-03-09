@@ -100,7 +100,7 @@ class MeetupListItem extends React.Component {
         return (
             <ListItem className={classes.listItem} href="#simple-list" alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg"/>
+                    <Avatar alt="Remy Sharp" src={this.props.avatarURL}/>
                 </ListItemAvatar>
                 <ListItemText
                     primary={
