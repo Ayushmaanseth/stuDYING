@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import Downshift from './Downshift.js'
+
 import profilepic from './profilepic.jpg';
 import logo from './logo.jpg';
 
@@ -11,8 +13,8 @@ const styles = theme => ({
   container: {
     // display: 'flex',
     // flexWrap: 'wrap',
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     width: '..',
     height: '..',
   },
@@ -48,6 +50,7 @@ const currencies = [
     label: '¥',
   },
 ];
+
 
 class TextFields extends React.Component {
   state = {
@@ -95,6 +98,8 @@ class TextFields extends React.Component {
           margin="normal"
         />
 
+        <Downshift />
+
       </form>
     );
   }
@@ -104,4 +109,6 @@ TextFields.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
+// export default withStyles(styles)(IntegrationDownshift);
 export default withStyles(styles)(TextFields);
+// export {TextFields, IntegrationDownshift};
