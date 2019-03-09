@@ -80,8 +80,8 @@ user_schemas = UserSchema(many=True)
 session_schema = SessionSchema()
 session_schemas = SessionSchema(many=True)
 
-db.drop_all()
-db.create_all()
+# db.drop_all()
+# db.create_all()
 
 
 ########## USER DB FUNCTIONS ###########
@@ -202,13 +202,16 @@ def session_delete(id):
 
 
 ##### SEARCH SESSIONS ######
-# 
-# @app.route('/results', methods=['GET'])
-# def search_results():
-#     results = []
-#
-#     search_string = search.data[location.first()]
-#     return search_string
+
+@app.route('/results', methods=['GET'])
+def search_results():
+    address="Facebook London"
+    google_maps = GoogleMaps(api_key='AIzaSyDf88Cz44T6LhWHyqW9GfeYSqF2Ih1GN8o')
+    location = google_maps.search(location=address)
+
+    return location.all()
+
+
 
 
 
