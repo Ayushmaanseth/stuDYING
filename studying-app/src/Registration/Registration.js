@@ -4,7 +4,9 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import Downshift from './Downshift.js'
+import  { Redirect } from 'react-router-dom'
 
 import profilepic from './profilepic.jpg';
 import logo from './logo.jpg';
@@ -41,14 +43,14 @@ class TextFields extends React.Component {
 
     // this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+        this.routeChange = this.routeChange.bind(this);
+    }
 
-  }
+    routeChange() {
+        let path = '/feed';
+        this.props.history.push(path);
+    }
 
-  state = {
-    name: 'default',
-    email: '',
-    selectedTopics: [''],
-  };
 
   // handleChange(event) {
   //   //this.setState({name: event.target.value});
@@ -66,9 +68,8 @@ class TextFields extends React.Component {
     event.preventDefault();
     let name = document.getElementById('name').value;
     let email = document.getElementById('email').value;
-    let topics = document.getElementById('topic')
-    // console.log("hello");
-    alert('submitted! with topic: ' + topics);
+
+    this.routeChange();
 
   };
 
@@ -88,12 +89,10 @@ class TextFields extends React.Component {
 
         <TextField
           required
-          // <input type="text" value={this.state.value} onChange={this.handleChange} />
           id="name"
           label="Name"
           className={classes.textField}
           type="name"
-          // autoComplete="current-password"
           margin="normal"
         />
 
@@ -103,7 +102,6 @@ class TextFields extends React.Component {
           label="Email"
           className={classes.textField}
           type="email"
-          // autoComplete="current-password"
           margin="normal"
         />
 
@@ -111,7 +109,11 @@ class TextFields extends React.Component {
           id='topics'
           />
 
-        <input type="submit" onClick={this.handleSubmit} value="Submit" />
+          <Button onClick={this.handleSubmit} variant="contained" color="secondary"
+                  className={classes.button} style={{marginTop: '3rem'}}>
+              Login
+          </Button>
+
 
       </form>
     );
