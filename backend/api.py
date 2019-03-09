@@ -5,6 +5,8 @@ import os
 import datetime
 from json import JSONEncoder
 import json
+from geolocation.main import GoogleMaps
+from geolocation.distance_matrix.client import DistanceMatrixApiClient
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -200,6 +202,14 @@ def session_delete(id):
 
 
 ##### SEARCH SESSIONS ######
+# 
+# @app.route('/results', methods=['GET'])
+# def search_results():
+#     results = []
+#
+#     search_string = search.data[location.first()]
+#     return search_string
+
 
 
 
