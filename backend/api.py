@@ -206,7 +206,7 @@ def session_delete(id):
 @app.route('/results', methods=['GET'])
 def search_results():
     address="Facebook London"
-    google_maps = GoogleMaps(api_key='AIzaSyDf88Cz44T6LhWHyqW9GfeYSqF2Ih1GN8o')
+    google_maps = GoogleMaps(api_key='')
     location = google_maps.search(location=address)
 
     return location.all()
